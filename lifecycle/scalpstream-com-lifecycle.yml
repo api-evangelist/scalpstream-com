@@ -1,0 +1,30 @@
+generated: '2026-09-19'
+method: searched
+source: agent cards (version, protocolVersion), proxy.golang.org tags for the MCP server, the marketing site, llms.txt files, x402 documents and /status probes, 2026-09-19
+versioning:
+  scheme: none published for the HTTP resources; agent cards declare version 1.0.0 and protocolVersion 0.3.0; the MCP server uses semver tags (v0.1.6)
+  url_versioning: false
+  header_versioning: false
+  note: >-
+    Paths carry no version segment and no version header was observed. feed.scalpstream.com
+    states its /schema is derived from the live payload so it cannot drift - a live-derivation
+    posture rather than a versioned contract.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  note: no deprecation or sunset policy is published anywhere; no Deprecation/Sunset headers observed (RFC 8594 / draft-ietf-httpapi-deprecation-header)
+deprecated_operations: []
+status_page:
+  published: false
+  note: >-
+    The marketing site labels a "Status" link on each service card, but the rendered page links
+    only to the four service hosts, and /status returns 404 on all five agent hosts. No status
+    page exists at any URL the provider publishes.
+sla:
+  published: false
+  note: no uptime or latency commitment is published; every service instead states data-freshness caveats (open data may lag; CBP waits change quickly; air quality is modelled)
+support:
+  channel: hello@scalpstream.com (footer of the marketing site)
+  hours: not stated
+release_history: see changelog/scalpstream-com-changelog.yml (MCP server tags only)

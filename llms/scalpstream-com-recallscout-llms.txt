@@ -1,0 +1,1 @@
+# RecallScout: machine-payable US recall lookups over x402 (HTTP 402). FDA, NHTSA and CPSC in one query, severity normalised onto one scale with the basis stated. Free preview at /preview; payment discovery at /.well-known/x402; A2A agent card at /.well-known/agent-card.json; A2A JSON-RPC at /a2a. Public-safety information, not legal or medical advice.

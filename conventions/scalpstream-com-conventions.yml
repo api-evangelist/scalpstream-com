@@ -1,0 +1,84 @@
+generated: '2026-09-19'
+method: probed
+source: live responses from the five agent hosts (previews, 402 challenges, JSON-RPC errors, ETag revalidation), the /.well-known/x402 documents, llms.txt files and the marketing site, 2026-09-19
+auth:
+  style: none - x402 per-request payment on paid resources, nothing on free ones (see authentication/)
+  headers: [PAYMENT-REQUIRED (402 response), X-PAYMENT-REQUIRED (legacy 402 response), 'X-Compliance-Attestation: not-sanctioned-party (required request header, research feed only)']
+transport:
+  http_resources: plain HTTPS GET with query parameters; JSON responses; CORS open (access-control-allow-origin on 402s)
+  a2a: JSON-RPC 2.0 over HTTPS POST at /a2a on each host; GET /a2a 302s to /.well-known/x402
+  mcp: local stdio (first-party scalpmcp); platform Wix Site MCP over streamable HTTP on www
+discovery:
+  agent_card: /.well-known/agent-card.json (and legacy /.well-known/agent.json) on each host
+  payment: /.well-known/x402 on each host - resource, price, accepts[], free preview URLs, (feed) resources[] and schema link
+  llms_txt: /llms.txt on each host (one-paragraph, operator-written) and a Wix-generated one on the apex
+  self_description: every 402 body carries extensions.bazaar with input params, an output example and a JSON Schema of the paid response
+idempotency:
+  coverage: na
+  na_basis: >-
+    The entire surface is read-only HTTP GET plus a free A2A message endpoint; there is no
+    state-mutating write to protect, so an Idempotency-Key mechanism has nothing to apply to.
+    The money-side replay concern is handled inside x402: each 402 quote is bound to an
+    invoiceId with a signature and a ~60-second expiresAt (maxTimeoutSeconds 60), so a stale or
+    replayed payment cannot be presented against a new request. The provider documents no
+    retry-token or double-charge policy beyond that.
+  header: null
+  scope: []
+reversibility:
+  grade: na
+  applies_to: none - read-only data surface, no destructive or state-changing operation exists
+  na_basis: >-
+    Every paid operation is a GET that returns data; nothing is created, changed or deleted, so
+    there is nothing to cancel, void, undo or restore. The payment itself is an on-chain
+    transfer the provider does not claim to reverse, and no refund policy or window is
+    published anywhere (marketing site, x402 docs, READMEs) - so no window is recorded.
+  reversal_paths: []
+  refund_policy_published: false
+dry_run:
+  mode: free preview
+  note: >-
+    Every host serves GET /preview without payment: it returns the service description, the
+    exact query parameters, example paid URLs and (feed) a judgeable sample with a board
+    fingerprint; the first-party MCP server returns previews plus the quoted price whenever no
+    wallet key is configured. This is a genuine try-before-you-buy rehearsal of the paid call,
+    recorded in sandbox/.
+pagination:
+  style: none
+  params: [limit (recalls: max recalls per list, default 10; crossings: how many crossings, default 5)]
+  note: bounded lists, no cursor/offset
+filtering_and_shape:
+  query_params_by_resource:
+    /recalls: [product, make, model, year, include_ended, limit]
+    /air: [lat, lon, duration, hours, hourly, place]
+    /crossings: [lat, lon, lanes, vehicle, limit, radius, speed, place]
+    /fuel: [country, region, lat, lon, grade, smart]
+    /picks /dividends /crypto /yields: []
+  field_expansion: none (hourly=1 on /air includes the full hourly series)
+freshness_and_caching:
+  research_feed: >-
+    Each preview carries freshness.board_hash (ranked lineup, blind to price movement) and
+    freshness.payload_hash (exact paid bytes) and serves board_hash as a weak ETag; poll with
+    If-None-Match and a 304 means the board has not turned over - buy only when it has (probed:
+    304 returned). Paid responses carry as_of and a receipt.
+  other_services: no ETag/Cache-Control observed on previews; responses carry disclaimers about upstream open-data lag
+versioning: none in paths or headers (see lifecycle/)
+error_envelope:
+  http: x402 v2 JSON envelope on 402; empty body on 404
+  json_rpc: JSON-RPC 2.0 error object (-32601 observed)
+  problem_json: false
+request_tracing:
+  request_id_header: none observed
+  correlation: x402 invoiceId in each 402 quote; receipt object in paid research responses
+rate_limit_signaling:
+  headers: none observed
+  see: rate-limits/scalpstream-com-rate-limits.yml
+disclaimers:
+  present_on: every root page, preview and paid schema (disclaimer field; operator_position_disclosure on research feeds)
+  note: research feeds are stated to be impersonal general-circulation data, byte-identical for every recipient, not investment advice; the operator may hold positions shown
+cross_links:
+  authentication: authentication/scalpstream-com-authentication.yml
+  errors: errors/scalpstream-com-problem-types.yml
+  lifecycle: lifecycle/scalpstream-com-lifecycle.yml
+  rate_limits: rate-limits/scalpstream-com-rate-limits.yml
+  payments: x402/scalpstream-com-x402.yml
+  sandbox: sandbox/scalpstream-com-sandbox.yml

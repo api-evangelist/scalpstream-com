@@ -1,0 +1,1 @@
+# FuelScout: machine-payable cheapest-fuel queries over x402 (HTTP 402). Station-level prices for Spain, France and Italy; official regional averages for the US. Free preview at /preview; payment discovery at /.well-known/x402; A2A agent card at /.well-known/agent-card.json; A2A JSON-RPC at /a2a. Prices are government open data and may be delayed.

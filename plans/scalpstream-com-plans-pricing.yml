@@ -1,0 +1,40 @@
+generated: '2026-09-19'
+method: probed
+source: /.well-known/x402 on each of the five agent hosts (price_usd, accepts[]) + the 402 challenge bodies, cross-checked against https://www.scalpstream.com/ ("$0.01 per query")
+machine_readable: https://recallscout.scalpstream.com/.well-known/x402
+machine_readable_note: >-
+  Pricing is provider-published data, not prose: every /.well-known/x402 document carries
+  price_usd "0.01" and an accepts[] list with the exact on-chain amount per rail, and every 402
+  challenge repeats it per resource. The marketing site states the same figure.
+model: pay-per-request
+plan_count: 0
+plan_count_note: >-
+  Deliberate zero: there are no tiers, subscriptions, seats, accounts or API keys. Every paid
+  resource costs a flat $0.01 (USD-pegged) per request, settled per request over x402. The only
+  free tier is the free preview endpoint on each host, which needs no payment or auth.
+currency: USD
+price_usd_per_request: '0.01'
+settlement:
+  rails:
+  - USDC on Base (eip155:8453) - 10000 base units (6 decimals)
+  - USDC on Arbitrum (eip155:42161)
+  - USDC on Polygon (eip155:137)
+  - XRP on the XRP Ledger (xrpl:0) - 7137 drops
+  - RLUSD on the XRP Ledger (xrpl:0) - 0.01
+  custody: "custody-free per the marketing site: the seller never holds buyer funds or keys; the first-party MCP server sponsors gas through a facilitator"
+  quote_validity: 60 seconds (maxTimeoutSeconds 60; extra.expiresAt ~60s after issue)
+paid_resources:
+- {service: RecallScout, endpoint: 'GET https://recallscout.scalpstream.com/recalls', price_usd: 0.01, unit: request}
+- {service: AirScout, endpoint: 'GET https://airscout.scalpstream.com/air', price_usd: 0.01, unit: request}
+- {service: BorderScout, endpoint: 'GET https://borderscout.scalpstream.com/crossings', price_usd: 0.01, unit: request}
+- {service: FuelScout, endpoint: 'GET https://fuelscout.scalpstream.com/fuel', price_usd: 0.01, unit: request}
+- {service: ScalpStream Research, endpoint: 'GET https://feed.scalpstream.com/picks', price_usd: 0.01, unit: request}
+- {service: ScalpStream Research, endpoint: 'GET https://feed.scalpstream.com/dividends', price_usd: 0.01, unit: request}
+- {service: ScalpStream Research, endpoint: 'GET https://feed.scalpstream.com/crypto', price_usd: 0.01, unit: request}
+- {service: ScalpStream Research, endpoint: 'GET https://feed.scalpstream.com/yields', price_usd: 0.01, unit: request}
+free_resources:
+- {service: RecallScout, endpoint: 'GET https://recallscout.scalpstream.com/preview'}
+- {service: AirScout, endpoint: 'GET https://airscout.scalpstream.com/preview'}
+- {service: BorderScout, endpoint: 'GET https://borderscout.scalpstream.com/preview'}
+- {service: FuelScout, endpoint: 'GET https://fuelscout.scalpstream.com/preview'}
+- {service: ScalpStream Research, endpoint: 'GET https://feed.scalpstream.com/preview (+ /preview-dividends, /preview-crypto, /preview-yields, /schema)'}

@@ -1,0 +1,47 @@
+generated: '2026-09-19'
+method: probed
+source: error responses observed live on the five agent hosts (402 challenges, JSON-RPC error envelope, 302 on GET /a2a, 404 on unknown paths) plus the documented 403 in feed.scalpstream.com/.well-known/x402, 2026-09-19
+format: custom
+format_note: >-
+  Two envelopes, neither RFC 9457. HTTP resources signal payment with an x402 v2 envelope
+  {x402Version, error, resource, 'accepts[]', extensions} and the PAYMENT-REQUIRED header; the
+  A2A endpoints use the JSON-RPC 2.0 error object {code, message}. No application/problem+json
+  was observed anywhere.
+problem_types:
+- status: 402
+  title: payment required
+  envelope: x402 v2 JSON body + PAYMENT-REQUIRED header (base64url of the same envelope) + legacy X-PAYMENT-REQUIRED header (single XRPL quote)
+  where: every paid resource (/recalls, /air, /crossings, /fuel, /picks, /dividends, /crypto, /yields) when called without a payment
+  fields: [x402Version, error, resource.url, resource.description, resource.mimeType, 'accepts[].scheme', 'accepts[].network', 'accepts[].amount', 'accepts[].asset', 'accepts[].payTo', 'accepts[].maxTimeoutSeconds', 'accepts[].extra.expiresAt', 'accepts[].extra.invoiceId', 'accepts[].extra.sig', extensions.bazaar]
+  remediation: "choose one accepts[] rail, pay the quoted amount to payTo within maxTimeoutSeconds (quote expires at extra.expiresAt, ~60s), retry with the payment payload per x402 v2; or call the free /preview instead"
+  observed: true
+- status: 403
+  title: compliance attestation missing
+  envelope: not observed (documented)
+  where: ScalpStream Research paid resources only
+  remediation: 'send the request header "X-Compliance-Attestation: not-sanctioned-party" on every paid request; a payment presented without it is refused before settlement'
+  observed: false
+  source: https://feed.scalpstream.com/.well-known/x402 (note field)
+- status: 200
+  title: JSON-RPC method not supported
+  envelope: JSON-RPC 2.0 error object
+  code: -32601
+  message_shape: 'method not supported: <method>'
+  where: POST /a2a on every host with an unrecognised method
+  remediation: use the A2A JSON-RPC methods (message/send etc.) the card advertises; transport is JSONRPC only
+  observed: true
+- status: 302
+  title: GET on the JSON-RPC endpoint
+  where: GET /a2a on every host
+  behaviour: redirects to /.well-known/x402 - the endpoint is POST-only and points a browser at the discovery document
+  observed: true
+- status: 404
+  title: not found
+  envelope: empty body
+  where: unknown paths on every agent host (e.g. /status, /openapi.json, /docs)
+  observed: true
+- status: 304
+  title: not modified
+  where: feed.scalpstream.com/preview* with If-None-Match matching the current weak ETag
+  meaning: the ranked board has not turned over since the last poll - no need to buy
+  observed: true

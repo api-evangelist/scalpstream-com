@@ -1,0 +1,16 @@
+generated: '2026-09-19'
+method: probed
+source: response headers observed on the free /preview (200) and paid (402) resources of all five agent hosts, 2026-09-19; the marketing site, llms.txt files, agent cards and x402 documents carry no limits
+limit_count: 0
+limit_count_note: >-
+  Honest zero: no rate limit is documented anywhere the provider publishes, and no rate-limit
+  signalling header was observed on any response - no X-RateLimit-*, no RateLimit-*, no
+  Retry-After. The per-request x402 price is the only throttle the surface expresses. The 402
+  quote carries maxTimeoutSeconds 60 and an expiresAt, which bounds how long a quote is valid,
+  not how many requests may be made.
+headers_observed:
+  on_200_preview: [content-type, x-content-type-options, x-frame-options, etag (feed host only), cache-control (feed host only)]
+  on_402_paid: [payment-required, x-payment-required, access-control-allow-origin, access-control-expose-headers, content-security-policy, strict-transport-security, x-content-type-options, x-frame-options, referrer-policy]
+  rate_limit_headers: []
+exhaustion_status: unknown
+limits: []

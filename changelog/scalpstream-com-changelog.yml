@@ -1,0 +1,21 @@
+generated: '2026-09-19'
+method: searched
+source: proxy.golang.org/github.com/!d!v1-321/scalpstream-mcp/@v/{list,<v>.info} (tagged releases) - the only dated release history the provider publishes
+scheme: semver (v0.x tags on the first-party MCP server module)
+current_version: v0.1.6
+current_date: '2026-09-08'
+scope_note: >-
+  Only the Go MCP server has a versioned, dated history. The five data services publish
+  version "1.0.0" in their agent cards with no changelog, no release notes and no dated
+  entries; feed.scalpstream.com's /schema is "derived from the live payload so it cannot
+  drift", i.e. the provider chose live derivation over a versioned contract. No GitHub
+  Releases are published for the module (tags only), so entries below are tag + date with
+  no highlights - the provider publishes none.
+entries:
+- {version: v0.1.6, date: '2026-09-08', breaking: false}
+- {version: v0.1.5, date: '2026-09-06', breaking: false}
+- {version: v0.1.4, date: '2026-09-03', breaking: false}
+- {version: v0.1.3, date: '2026-08-07', breaking: false}
+- {version: v0.1.2, date: '2026-08-07', breaking: false}
+- {version: v0.1.1, date: '2026-08-07', breaking: false}
+- {version: v0.1.0, date: '2026-08-07', breaking: false, note: first tag}

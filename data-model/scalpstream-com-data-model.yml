@@ -1,0 +1,71 @@
+generated: '2026-09-19'
+method: derived
+source: provider-published JSON Schemas - the extensions.bazaar.schema in each 402 challenge (x402/) and https://feed.scalpstream.com/schema (json-schema/) - plus the /preview parameter descriptions, 2026-09-19
+summary: >-
+  Five independent read models, one per service, with no cross-service references and no
+  identifiers to join on - each response is a self-contained answer to one query. Derived only
+  from schemas the provider serves; no field is inferred.
+entities:
+- name: RecallLookup
+  service: RecallScout
+  source: x402/scalpstream-com-recallscout-402-challenge.json#/extensions/bazaar/schema
+  fields: [query, recalled, worst_severity, action, active_count, 'active[]', complete, 'sources_queried[]', 'sources_failed[]', disclaimer]
+  relationships:
+  - {type: has_many, target: Recall, via: active}
+- name: Recall
+  service: RecallScout
+  fields: [id, source, product, firm, reason, hazard, remedy, severity, severity_basis, codes, date]
+  note: source is one of FDA / NHTSA / CPSC; severity is normalised across the three with severity_basis stating why
+- name: AirQualityAnswer
+  service: AirScout
+  source: x402/scalpstream-com-airscout-402-challenge.json#/extensions/bazaar/schema
+  fields: [service, place, current, verdict, best_window, source, price_usd, disclaimer]
+  relationships:
+  - {type: has_one, target: CurrentAirQuality, via: current}
+  - {type: has_one, target: CleanWindow, via: best_window}
+- name: CurrentAirQuality
+  service: AirScout
+  note: nested object under current - US AQI and pollutant breakdown (shape per the bazaar schema)
+- name: CleanWindow
+  service: AirScout
+  note: nested object under best_window - the contiguous clean window ahead for the requested duration
+- name: CrossingRanking
+  service: BorderScout
+  source: x402/scalpstream-com-borderscout-402-challenge.json#/extensions/bazaar/schema
+  fields: [service, place, 'crossings[]', source, price_usd, disclaimer]
+  relationships:
+  - {type: has_many, target: Crossing, via: crossings}
+- name: Crossing
+  service: BorderScout
+  note: one US port of entry with drive + wait = all-in time per lane (shape per the bazaar schema)
+- name: FuelAnswer
+  service: FuelScout
+  source: x402/scalpstream-com-fuelscout-402-challenge.json#/extensions/bazaar/schema
+  fields: [service, country, grade, currency, resolution, average, 'stations[]', price_usd, disclaimer]
+  relationships:
+  - {type: has_many, target: Station, via: stations}
+  note: resolution distinguishes station-level (ES/FR/IT) from regional-average (US) answers
+- name: Station
+  service: FuelScout
+  note: one fuel station with price and distance; smart=1 adds a detour-aware ranking
+- name: ResearchFeed
+  service: ScalpStream Research
+  source: json-schema/scalpstream-com-research-schema.json#/feeds/*/schema
+  fields: [publication, as_of, pick_count, 'picks[]', receipt, operator_position_disclosure, disclaimer]
+  publications: [scalpstream-options (/picks), scalpstream-dividends (/dividends), scalpstream-crypto (/crypto), scalpstream-yields (/yields)]
+  relationships:
+  - {type: has_many, target: Pick, via: picks}
+  - {type: has_one, target: Receipt, via: receipt}
+- name: Pick
+  service: ScalpStream Research
+  note: one ranked candidate; per-feed row shape in the /schema document, required[] lists the fields present on every row of the current scan
+- name: Receipt
+  service: ScalpStream Research
+  note: payment/delivery receipt attached to each paid response
+- name: Freshness
+  service: ScalpStream Research
+  source: /preview responses
+  fields: [board_hash, payload_hash, market_session, rows]
+  note: preview-only object; board_hash is also served as the weak ETag
+identifiers:
+  scheme: none published - responses carry no stable ids except recall ids from the upstream regulators (e.g. F-0123-2026 in the FDA example)

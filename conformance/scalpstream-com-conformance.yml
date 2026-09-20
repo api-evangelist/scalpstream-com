@@ -1,0 +1,69 @@
+generated: '2026-09-19'
+method: probed
+source: live probes of the five agent hosts (agent cards, /a2a JSON-RPC, /.well-known/x402, paid 402 resources, feed /schema and ETag revalidation), 2026-09-19
+summary: >-
+  What ScalpStream conforms to is the agent-payments stack, and every claim below was observed
+  rather than read: A2A 0.3.0 agent cards that grade conformant against A2A 1.0.0, live JSON-RPC
+  2.0 endpoints, x402 v2 payment challenges with the spec's PAYMENT-REQUIRED header, JSON Schema
+  2020-12 for the research feed's paid responses, and RFC 9110 conditional requests (weak ETag +
+  If-None-Match -> 304) on the free previews. There is no OAuth, no OIDC, no RFC 9457 problem
+  details and no pagination scheme, and the market has no domain standard for the five data
+  services (recalls, air quality, border waits, fuel prices, retail research) - domain_standard is
+  therefore not asserted, and nothing is invented to fill the slot.
+conformance:
+- id: a2a
+  conforms: true
+  version: '0.3.0 cards, graded against A2A 1.0.0'
+  evidence: "five /.well-known/agent-card.json documents, each with capabilities as an object, protocolVersion 0.3.0, skills[] array, preferredTransport JSONRPC, default input/output modes - see a2a/scalpstream-com-a2a.yml"
+- id: a2a-x402-extension
+  conforms: true
+  version: v0.1
+  evidence: "capabilities.extensions[].uri https://github.com/google-a2a/a2a-x402/v0.1 on all five cards, required false, params naming discovery URL, resource, priceUSD, networks and assets"
+- id: json-rpc-2.0
+  conforms: true
+  evidence: "POST of an unknown method to each /a2a URL returned {\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32601,\"message\":\"method not supported: ...\"}} with HTTP 200 - the spec's method-not-found code and envelope"
+- id: x402
+  conforms: true
+  version: 2
+  evidence: "GET on each of the five paid resources returned HTTP 402 with a PAYMENT-REQUIRED header decoding to {x402Version 2, error, resource{url,description,mimeType}, accepts[{scheme exact, network, amount, asset, payTo, maxTimeoutSeconds, extra}]} plus a legacy X-PAYMENT-REQUIRED header; /.well-known/x402 discovery docs declare x402Version 2 - see x402/scalpstream-com-x402.yml"
+- id: json-schema
+  conforms: true
+  version: draft 2020-12
+  evidence: https://feed.scalpstream.com/schema publishes a $schema https://json-schema.org/draft/2020-12/schema object per paid feed (/picks /dividends /crypto /yields); the bazaar block in every 402 body carries a JSON Schema for that resource's paid response - saved verbatim in json-schema/ and x402/
+- id: http-conditional-requests
+  conforms: true
+  standard: RFC 9110 / RFC 7232
+  evidence: feed.scalpstream.com/preview served ETag W/"9139991e..." and answered a request carrying If-None-Match with that value with HTTP 304; the provider documents this as the board-fingerprint polling mechanism (llms.txt, x402 note, root page)
+- id: rfc-8615-well-known
+  conforms: true
+  evidence: agent cards at the RFC 8615 well-known path /.well-known/agent-card.json on all five hosts (plus legacy /.well-known/agent.json)
+- id: mcp
+  conforms: true
+  evidence: first-party local stdio server github.com/DV1-321/scalpstream-mcp v0.1.6 (searched, not executed); the platform-authored Wix Site MCP at www.scalpstream.com/_api/mcp answered tools/list per the streamable-HTTP transport (probed) - see mcp/
+- id: oauth2
+  conforms: false
+  evidence: "securitySchemes {} and security [] on every card; no /.well-known/oauth-authorization-server or oauth-protected-resource on any host; the model is keyless payment"
+- id: oidc
+  conforms: false
+  evidence: no /.well-known/openid-configuration on any host
+- id: rfc9457
+  conforms: false
+  evidence: 402 bodies are x402 envelopes (application/json), JSON-RPC errors use the JSON-RPC envelope; no application/problem+json observed
+- id: pagination
+  conforms: false
+  evidence: paid resources take a `limit` query parameter (recalls, crossings) but publish no cursor/offset/page scheme; responses are bounded lists
+- id: idempotency
+  conforms: false
+  applicable: false
+  evidence: all resources are HTTP GET reads; no write surface exists to protect (see conventions/)
+- id: security-txt
+  conforms: false
+  standard: RFC 9116
+  evidence: /.well-known/security.txt 404 on every host
+domain_standard:
+  asserted: false
+  note: >-
+    Reward-only check. None of the five markets carries a machine-readable domain standard the
+    contract could declare (the upstream sources - openFDA, NHTSA, CPSC, CBP wait times, EU/US
+    fuel open data, Copernicus CAMS - are consumed, not re-exposed in their native shapes).
+    Nothing asserted.

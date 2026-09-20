@@ -1,0 +1,35 @@
+generated: '2026-09-19'
+method: searched
+source: proxy.golang.org module metadata + github.com/DV1-321/scalpstream-mcp + npm/PyPI probes, 2026-09-19
+summary: >-
+  One first-party package: the Go module github.com/DV1-321/scalpstream-mcp (binary scalpmcp),
+  the operator's local MCP server that buys from the five x402 services with the user's own
+  wallet. Latest v0.1.6 published 2026-09-08 (seven tags since 2026-08-07), which is current
+  relative to the service surface it wraps. It is an MCP connector, not a language SDK for the
+  REST resources - there is no SDK, and by design none is needed: the services are plain HTTP
+  GET plus x402, and the docs point buyers at the x402 ecosystem clients. npm and PyPI hold no
+  scalpstream packages (registry metadata 404, npm search empty).
+packages:
+- name: github.com/DV1-321/scalpstream-mcp
+  registry: go
+  official: true
+  kind: mcp-server (local stdio)
+  binary: scalpmcp
+  version: v0.1.6
+  published: '2026-09-08'
+  install: go install github.com/DV1-321/scalpstream-mcp/cmd/scalpmcp@latest
+  repository: https://github.com/DV1-321/scalpstream-mcp
+  license: MIT
+  language: Go
+  go_version: '1.26.6'
+  versions_published: [v0.1.0, v0.1.1, v0.1.2, v0.1.3, v0.1.4, v0.1.5, v0.1.6]
+  first_published: '2026-08-07'
+  note: >-
+    Ownership: the same GitHub account publishes DV1-321/agent-cards, whose README exists to
+    prove namespace ownership of the five ScalpStream agents to registries and lists their live
+    scalpstream.com card URLs as authoritative. Version and date read from
+    proxy.golang.org/.../@latest (Time 2026-09-08T19:00:11Z, tag v0.1.6).
+registry_probes:
+- {registry: npm, query: scalpstream, result: 'search empty; registry.npmjs.org/scalpstream and /scalpstream-mcp both 404'}
+- {registry: pypi, query: scalpstream, result: 'pypi.org/pypi/scalpstream/json and /scalpstream-mcp/json both 404'}
+- {registry: go, query: github.com/DV1-321/scalpstream-mcp, result: 'proxy.golang.org @v/list 200 - seven versions'}

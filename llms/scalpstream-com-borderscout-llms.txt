@@ -1,0 +1,1 @@
+# BorderScout: machine-payable US border-crossing queries over x402 (HTTP 402). All 85 US ports of entry ranked by all-in time - drive plus wait - per lane type for passenger, commercial or pedestrian traffic. Free preview at /preview; payment discovery at /.well-known/x402; A2A agent card at /.well-known/agent-card.json; A2A JSON-RPC at /a2a. CBP wait times change quickly.

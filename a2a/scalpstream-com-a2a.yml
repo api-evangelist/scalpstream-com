@@ -1,0 +1,169 @@
+generated: '2026-09-19'
+method: probed
+source: https://recallscout.scalpstream.com/.well-known/agent-card.json
+description: >-
+  ScalpStream serves FIVE distinct A2A Agent Cards from five hosts under its own registrable
+  domain (scalpstream.com), every one fetched verbatim on 2026-09-19 - nothing here is generated
+  or derived. The primary card is RecallScout (the agent the a2aregistry.org harvest surfaced);
+  the other four are AirScout, BorderScout, FuelScout and ScalpStream Research (served from
+  feed.scalpstream.com, and byte-identically from the alias host tradescout.scalpstream.com).
+  All five are the same template: protocolVersion 0.3.0, preferredTransport JSONRPC, a JSON-RPC
+  endpoint at /a2a on the same host, an empty security[] (the A2A endpoint is free), and an
+  a2a-x402 v0.1 capability extension declaring that paid DATA settles over HTTP 402 at a sibling
+  REST resource (/recalls, /air, /crossings, /fuel, /picks) at $0.01 per request. All five grade
+  conformant against A2A 1.0.0. Each host also serves the identical card at the legacy
+  /.well-known/agent.json path. The operator's GitHub account (DV1-321) publishes a companion
+  repo, agent-cards, that exists solely to prove namespace ownership of these five agents to
+  registries and states that the live hosts above are the source of truth.
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: recallscout.scalpstream.com
+  legacy_path: /.well-known/agent.json
+  legacy_status: 200
+  legacy_note: every one of the five hosts serves the identical body at the legacy path (not saved twice)
+  alias_host: tradescout.scalpstream.com serves the ScalpStream Research card and x402 doc byte-for-byte (card url still points at feed.scalpstream.com/a2a)
+  registry_copy: https://github.com/DV1-321/agent-cards (registry-verification snapshots in a registry-generated shape; the repo's own README says the live hosts are authoritative)
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://recallscout.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  file: scalpstream-com-agent-card.json
+  endpoint_probe: >-
+    POST {"jsonrpc":"2.0","id":1,"method":"nonexistent/method"} to each /a2a URL answered HTTP 200
+    with a proper JSON-RPC -32601 "method not supported" envelope on all five hosts - live JSON-RPC
+    servers, not shells. A plain GET /a2a 302-redirects to /.well-known/x402.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  deviations: []
+  graded_cards:
+    RecallScout: conformant
+    AirScout: conformant
+    BorderScout: conformant
+    FuelScout: conformant
+    ScalpStream Research: conformant
+  notes:
+  - securitySchemes is an empty object and security an empty array on every card - correct for a free endpoint, so not a deviation
+  - the payment model lives in capabilities.extensions[] (uri https://github.com/google-a2a/a2a-x402/v0.1, required false), not in securitySchemes
+  - supportsAuthenticatedExtendedCard is false on every card; there is no extended card to fetch
+card:
+  name: RecallScout
+  description: Machine-payable US recall lookups over x402 - FDA food/drug/device, NHTSA vehicle and CPSC consumer recalls in one query with severity normalised onto one scale.
+  url: https://recallscout.scalpstream.com/a2a
+  version: 1.0.0
+  documentation_url: https://recallscout.scalpstream.com/.well-known/x402
+  icon_url: https://recallscout.scalpstream.com/icon.png
+  skills: 3
+  file: scalpstream-com-agent-card.json
+cards:
+- file: scalpstream-com-agent-card.json
+  primary: true
+  host: recallscout.scalpstream.com
+  url: https://recallscout.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  name: RecallScout
+  agent_url: https://recallscout.scalpstream.com/a2a
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  version: 1.0.0
+  grade: conformant
+  checks: &checks
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+    preferred_transport_present: true
+    default_input_modes_present: true
+    default_output_modes_present: true
+  deviations: []
+  skills: 3
+  skill_ids: [recall-lookup, vehicle-recall-check, severity-normalisation]
+  provider_organization: RecallScout
+  paid_resource: https://recallscout.scalpstream.com/recalls
+  price_usd: '0.01'
+- file: scalpstream-com-airscout-agent-card.json
+  host: airscout.scalpstream.com
+  url: https://airscout.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  name: AirScout
+  agent_url: https://airscout.scalpstream.com/a2a
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  version: 1.0.0
+  grade: conformant
+  checks: *checks
+  deviations: []
+  skills: 3
+  skill_ids: [air-quality-window, cleanest-window-forecast, pollutant-breakdown]
+  provider_organization: AirScout
+  paid_resource: https://airscout.scalpstream.com/air
+  price_usd: '0.01'
+- file: scalpstream-com-borderscout-agent-card.json
+  host: borderscout.scalpstream.com
+  url: https://borderscout.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  name: BorderScout
+  agent_url: https://borderscout.scalpstream.com/a2a
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  version: 1.0.0
+  grade: conformant
+  checks: *checks
+  deviations: []
+  skills: 3
+  skill_ids: [best-border-crossing, lane-and-vehicle-waits, nearest-vs-fastest]
+  provider_organization: BorderScout
+  paid_resource: https://borderscout.scalpstream.com/crossings
+  price_usd: '0.01'
+- file: scalpstream-com-fuelscout-agent-card.json
+  host: fuelscout.scalpstream.com
+  url: https://fuelscout.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  name: FuelScout
+  agent_url: https://fuelscout.scalpstream.com/a2a
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  version: 1.0.0
+  grade: conformant
+  checks: *checks
+  deviations: []
+  skills: 3
+  skill_ids: [cheapest-fuel, regional-fuel-averages, detour-aware-ranking]
+  provider_organization: FuelScout
+  paid_resource: https://fuelscout.scalpstream.com/fuel
+  price_usd: '0.01'
+- file: scalpstream-com-research-agent-card.json
+  host: feed.scalpstream.com
+  url: https://feed.scalpstream.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  name: ScalpStream Research
+  agent_url: https://feed.scalpstream.com/a2a
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  version: 1.0.0
+  grade: conformant
+  checks: *checks
+  deviations: []
+  skills: 4
+  skill_ids: [options, dividends, crypto, yields]
+  provider_organization: ScalpStream Research
+  paid_resource: https://feed.scalpstream.com/picks
+  paid_resources_also: [https://feed.scalpstream.com/dividends, https://feed.scalpstream.com/crypto, https://feed.scalpstream.com/yields]
+  price_usd: '0.01'
+  note: 'also served byte-identically from tradescout.scalpstream.com; paid requests additionally require the header "X-Compliance-Attestation: not-sanctioned-party" (refused 403 before settlement without it)'
+payment:
+  protocol: x402
+  version: 2
+  discovery: /.well-known/x402 on every agent host (saved verbatim in well-known/)
+  challenge: GET on each paid resource answered HTTP 402 with a base64 PAYMENT-REQUIRED header (x402 v2) plus a legacy X-PAYMENT-REQUIRED header and a JSON body - saved verbatim in x402/
+  price_usd_per_request: '0.01'
+  networks: [eip155:8453 (Base USDC), eip155:42161 (Arbitrum USDC), eip155:137 (Polygon USDC), xrpl:0 (XRP), xrpl:0 (RLUSD)]
+  free_tier: /preview on every host (no payment, no auth) - see sandbox/

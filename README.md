@@ -1,4 +1,4 @@
-# RecallScout
+# ScalpStream
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository

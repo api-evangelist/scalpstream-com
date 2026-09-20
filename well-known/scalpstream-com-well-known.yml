@@ -1,0 +1,155 @@
+generated: '2026-09-19'
+method: probed
+source: live probes of /.well-known/ on scalpstream.com, www.scalpstream.com and the five agent hosts (plus the tradescout alias), 2026-09-19
+summary: >-
+  Real documents are served on every agent host and none on the apex/marketing host. Each of
+  recallscout., airscout., borderscout., fuelscout. and feed.scalpstream.com serves an A2A agent
+  card at the canonical /.well-known/agent-card.json, the identical card at the legacy
+  /.well-known/agent.json, and an x402 payment-discovery document at /.well-known/x402 - three
+  genuine JSON documents per host, fifteen in all (plus the tradescout alias). Nothing else is
+  served anywhere: no security.txt (so NO SecurityTxt pointer), no openid-configuration, no
+  oauth-authorization-server, no oauth-protected-resource (consistent with the keyless x402
+  model - there is no OAuth anywhere), no api-catalog, no ai-plugin.json, no ucp/acp/aauth, and
+  no apis.json. The apex host scalpstream.com is a Wix site whose /.well-known/* answers are Wix
+  400/404 error shells, recorded as misses. The Wix Site MCP endpoint (www.scalpstream.com/_api/mcp,
+  see mcp/) is on the www host, which is why www is probed as the MCP host per RFC 9728 - it
+  serves no protected-resource metadata either.
+pointer_basis: >-
+  WellKnown pointer emitted on the strength of the fifteen 200 application/json documents on the
+  five agent hosts. SecurityTxt pointer NOT emitted - RFC 9116 is unimplemented on every host.
+false_positive_watch: >-
+  www.scalpstream.com answers HTTP 400 (2,203-byte Wix "Bad Request" HTML) for every
+  /.well-known/* path and 404 HTML for other unknown paths; the apex 301s to www. Neither is a
+  document. The agent hosts return clean 0-byte 404s for unknown paths, so their 200s are real.
+hosts:
+- host: https://recallscout.scalpstream.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, file: ../a2a/scalpstream-com-agent-card.json, note: "A2A agent card (canonical) - graded conformant in a2a/scalpstream-com-a2a.yml"}
+  - {path: /.well-known/agent.json, status: 200, note: "identical body to agent-card.json (legacy pre-0.3 path) - not saved twice"}
+  - {path: /.well-known/x402, status: 200, file: scalpstream-com-recallscout-x402.json, note: "x402 v2 payment discovery - resource /recalls, price_usd 0.01, five accepts[] rails, free preview URL"}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+- host: https://airscout.scalpstream.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, file: ../a2a/scalpstream-com-airscout-agent-card.json, note: "A2A agent card (canonical) - conformant"}
+  - {path: /.well-known/agent.json, status: 200, note: "identical body (legacy path)"}
+  - {path: /.well-known/x402, status: 200, file: scalpstream-com-airscout-x402.json, note: "x402 v2 payment discovery - resource /air"}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+- host: https://borderscout.scalpstream.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, file: ../a2a/scalpstream-com-borderscout-agent-card.json, note: "A2A agent card (canonical) - conformant"}
+  - {path: /.well-known/agent.json, status: 200, note: "identical body (legacy path)"}
+  - {path: /.well-known/x402, status: 200, file: scalpstream-com-borderscout-x402.json, note: "x402 v2 payment discovery - resource /crossings"}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+- host: https://fuelscout.scalpstream.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, file: ../a2a/scalpstream-com-fuelscout-agent-card.json, note: "A2A agent card (canonical) - conformant"}
+  - {path: /.well-known/agent.json, status: 200, note: "identical body (legacy path)"}
+  - {path: /.well-known/x402, status: 200, file: scalpstream-com-fuelscout-x402.json, note: "x402 v2 payment discovery - resource /fuel"}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+- host: https://feed.scalpstream.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, file: ../a2a/scalpstream-com-research-agent-card.json, note: "A2A agent card (canonical) - conformant; ScalpStream Research"}
+  - {path: /.well-known/agent.json, status: 200, note: "identical body (legacy path)"}
+  - {path: /.well-known/x402, status: 200, file: scalpstream-com-research-x402.json, note: "x402 v2 payment discovery - resources[] /picks /dividends /crypto /yields, four free previews, /schema link, required X-Compliance-Attestation header"}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+- host: https://tradescout.scalpstream.com
+  note: alias of feed.scalpstream.com - serves the ScalpStream Research card and x402 doc byte-identically; not saved twice
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, note: "identical to feed.scalpstream.com card (3,315 bytes)"}
+  - {path: /.well-known/x402, status: 200, note: "identical to feed.scalpstream.com x402 doc (3,614 bytes)"}
+- host: https://scalpstream.com
+  note: apex - 301s every path to www.scalpstream.com (Wix)
+  documents:
+  - {path: /.well-known/agent-card.json, status: 301, note: "redirects to www, which answers a Wix 400 HTML shell - a miss"}
+  - {path: /.well-known/agent.json, status: 301, note: "same - a miss"}
+  - {path: /.well-known/security.txt, status: 301, note: "redirects to www 400 shell - a miss"}
+  - {path: /.well-known/openid-configuration, status: 301, note: "miss"}
+  - {path: /.well-known/oauth-authorization-server, status: 301, note: "miss"}
+  - {path: /.well-known/oauth-protected-resource, status: 301, note: "miss"}
+  - {path: /.well-known/api-catalog, status: 301, note: "miss"}
+  - {path: /.well-known/ai-plugin.json, status: 301, note: "miss"}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+- host: https://www.scalpstream.com
+  note: Wix marketing site AND the host of the Wix Site MCP endpoint (/_api/mcp) - probed as the MCP host per RFC 9728; every /.well-known/* path returns a 2,203-byte Wix "400 Bad Request" HTML shell, which is not a document
+  documents:
+  - {path: /.well-known/agent-card.json, status: 400, note: "Wix HTML error shell - a miss"}
+  - {path: /.well-known/agent.json, status: 400, note: "Wix HTML error shell - a miss"}
+  - {path: /.well-known/security.txt, status: 400, note: "Wix HTML error shell - a miss"}
+  - {path: /.well-known/openid-configuration, status: 400, note: "miss"}
+  - {path: /.well-known/oauth-authorization-server, status: 400, note: "miss"}
+  - {path: /.well-known/oauth-protected-resource, status: 400, note: "miss - the Wix Site MCP publishes no protected-resource metadata (it needs no auth)"}
+  - {path: /.well-known/api-catalog, status: 400, note: "miss"}
+  - {path: /.well-known/ai-plugin.json, status: 400, note: "miss"}
+  - {path: /.well-known/mcp.json, status: 400, note: "miss"}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}

@@ -1,0 +1,34 @@
+generated: '2026-09-19'
+method: probed
+source: agent cards (securitySchemes/security), /.well-known/x402 documents, live 402 challenges and the marketing site ("no accounts, no API keys, no subscriptions"), 2026-09-19
+summary: >-
+  There is no authentication. Every surface is anonymous by design: the A2A JSON-RPC endpoints
+  and free previews need nothing at all, and the paid HTTP resources are gated by PAYMENT, not
+  identity - an x402 v2 challenge (HTTP 402 + PAYMENT-REQUIRED header) that any wallet on one of
+  five rails can satisfy per request. No API keys, OAuth, OIDC, mTLS, sign-up or account exist,
+  and the agent cards declare securitySchemes {} and security []. The one non-payment gate is a
+  required attestation header on the research feed.
+schemes: []
+schemes_note: no securityScheme of any kind - apiKey, http, oauth2, openIdConnect and mutualTLS are all absent
+access_model:
+  free:
+    surfaces: [GET /preview on every host (+ feed /preview-dividends /preview-crypto /preview-yields /schema), POST /a2a (A2A JSON-RPC), /.well-known/agent-card.json, /.well-known/x402, /llms.txt]
+    auth: none
+  paid:
+    surfaces: [GET /recalls, GET /air, GET /crossings, GET /fuel, GET /picks, GET /dividends, GET /crypto, GET /yields]
+    gate: x402 v2 payment challenge (HTTP 402) - see x402/scalpstream-com-x402.yml
+    identity_required: false
+    payment_header: PAYMENT-REQUIRED (server) / payment payload per x402 v2 (client); legacy X-PAYMENT-REQUIRED also emitted
+    rails: [USDC on Base, USDC on Arbitrum, USDC on Polygon, XRP on XRPL, RLUSD on XRPL]
+    price_usd: '0.01'
+required_headers:
+- header: X-Compliance-Attestation
+  value: not-sanctioned-party
+  applies_to: paid resources on feed.scalpstream.com only
+  behaviour: request refused with HTTP 403 before settlement when absent
+  source: https://feed.scalpstream.com/.well-known/x402
+first_party_client:
+  name: scalpmcp (github.com/DV1-321/scalpstream-mcp)
+  buyer_secret: EVM_BASE_PRIVATE_KEY held in process memory on the buyer's machine; never sent to ScalpStream
+  note: the only key anywhere in the flow is the buyer's own wallet key, per the README
+docs: https://www.scalpstream.com/ ("The x402 Flow")

@@ -1,23 +1,257 @@
 aid: scalpstream-com
-name: RecallScout
-description: 'RecallScout is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry)
-  and added to the network as a stub for full-pipeline profiling.'
+name: ScalpStream
+description: >-
+  ScalpStream operates a family of machine-payable data APIs built for autonomous agents:
+  RecallScout (active US FDA, NHTSA and CPSC recalls with severity normalised across the three
+  regulators), AirScout (global air quality with an EPA-based outdoor-exertion verdict and the
+  cleanest window ahead), BorderScout (all 85 US ports of entry ranked by drive-plus-wait
+  time per lane), FuelScout (cheapest fuel - station-level for Spain, France and Italy,
+  official regional averages for the US) and ScalpStream Research (impersonal ranked options,
+  dividend, crypto and yield feeds). Every service is a plain HTTPS GET priced at a flat $0.01
+  per request and settled per request over x402 (HTTP 402) in USDC on Base, Arbitrum or
+  Polygon or XRP/RLUSD on the XRP Ledger - no accounts, no API keys, no subscriptions - with a
+  free preview on every host, an A2A agent card and JSON-RPC endpoint per service, and a
+  first-party local MCP server (scalpmcp) that buys from all of them with the user's own wallet.
 url: https://raw.githubusercontent.com/api-evangelist/scalpstream-com/refs/heads/main/apis.yml
+image: https://recallscout.scalpstream.com/icon.png
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-19 (was stub; the harvest named the company after its RecallScout agent - the operator is ScalpStream, per every agent host footer, the marketing site and hello@scalpstream.com)
 specificationVersion: '0.20'
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 40
+  pass: local-v3
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
 - Company
-apis: []
+- Agents
+- A2A
+- x402
+- Micropayments
+- MCP
+- Open Data
+- Product Recalls
+- Air Quality
+- Border Crossings
+- Fuel Prices
+- Market Research
+- Public Safety
+- Cryptocurrency
+- USDC
+- XRP Ledger
+- llms-txt
+- JSON Schema
+apis:
+- name: RecallScout
+  image: https://recallscout.scalpstream.com/icon.png
+  description: >-
+    Machine-payable US recall lookups over x402. Given a product, brand, ingredient or vehicle
+    (make/model/year), returns active recalls across FDA food/drug/device enforcement, NHTSA
+    vehicle safety campaigns and CPSC consumer recalls in one query, with severity normalised
+    onto one scale and the basis for each rating stated, plus hazard, remedy and the lot codes /
+    UPCs needed to tell whether a specific unit is affected. $0.01 per request; free preview.
+  humanURL: https://recallscout.scalpstream.com/
+  baseURL: https://recallscout.scalpstream.com
+  tags: [Product Recalls, Public Safety, FDA, NHTSA, CPSC, x402, A2A]
+  properties:
+  - type: AgentCard
+    url: a2a/scalpstream-com-a2a.yml
+  - type: AgentCard
+    url: https://recallscout.scalpstream.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://recallscout.scalpstream.com/.well-known/x402
+  - type: LLMsTxt
+    url: llms/scalpstream-com-recallscout-llms.txt
+  - type: X-X402
+    url: x402/scalpstream-com-x402.yml
+  - type: X-X402Discovery
+    url: well-known/scalpstream-com-recallscout-x402.json
+  - type: Sandbox
+    url: sandbox/scalpstream-com-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/scalpstream-com-problem-types.yml
+  - type: DataModel
+    url: data-model/scalpstream-com-data-model.yml
+- name: AirScout
+  image: https://airscout.scalpstream.com/icon.png
+  description: >-
+    Machine-payable air-quality queries over x402 with global coverage: current US AQI and
+    pollutant breakdown for a lat/lon, an EPA (AirNow) based verdict on whether it is safe to
+    exercise outdoors, and the cleanest contiguous window in the next 7 days for a session of a
+    given length. Modelled data (Copernicus CAMS via Open-Meteo), not a street-level sensor.
+    $0.01 per request; free preview.
+  humanURL: https://airscout.scalpstream.com/
+  baseURL: https://airscout.scalpstream.com
+  tags: [Air Quality, Environment, Weather, Health, x402, A2A]
+  properties:
+  - type: AgentCard
+    url: a2a/scalpstream-com-a2a.yml
+  - type: AgentCard
+    url: https://airscout.scalpstream.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://airscout.scalpstream.com/.well-known/x402
+  - type: LLMsTxt
+    url: llms/scalpstream-com-airscout-llms.txt
+  - type: X-X402
+    url: x402/scalpstream-com-x402.yml
+  - type: X-X402Discovery
+    url: well-known/scalpstream-com-airscout-x402.json
+  - type: Sandbox
+    url: sandbox/scalpstream-com-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/scalpstream-com-problem-types.yml
+  - type: DataModel
+    url: data-model/scalpstream-com-data-model.yml
+- name: BorderScout
+  image: https://borderscout.scalpstream.com/icon.png
+  description: >-
+    Machine-payable US border-crossing queries over x402. Ranks all 85 US ports of entry by
+    all-in time - the drive there plus the live CBP wait once there - per lane type (standard,
+    SENTRI/NEXUS, Ready, FAST) for passenger, commercial or pedestrian traffic, because the
+    nearest crossing is often not the fastest. $0.01 per request; free preview.
+  humanURL: https://borderscout.scalpstream.com/
+  baseURL: https://borderscout.scalpstream.com
+  tags: [Border Crossings, Travel, Logistics, Transportation, x402, A2A]
+  properties:
+  - type: AgentCard
+    url: a2a/scalpstream-com-a2a.yml
+  - type: AgentCard
+    url: https://borderscout.scalpstream.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://borderscout.scalpstream.com/.well-known/x402
+  - type: LLMsTxt
+    url: llms/scalpstream-com-borderscout-llms.txt
+  - type: X-X402
+    url: x402/scalpstream-com-x402.yml
+  - type: X-X402Discovery
+    url: well-known/scalpstream-com-borderscout-x402.json
+  - type: Sandbox
+    url: sandbox/scalpstream-com-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/scalpstream-com-problem-types.yml
+  - type: DataModel
+    url: data-model/scalpstream-com-data-model.yml
+- name: FuelScout
+  image: https://fuelscout.scalpstream.com/icon.png
+  description: >-
+    Machine-payable cheapest-fuel queries over x402. Station-level prices for Spain, France and
+    Italy and official regional averages for the US, by location and grade, with an optional
+    smart ranking that weighs the detour (fuel burned plus time) against the pump price. Prices
+    are official government open data and may be delayed. $0.01 per request; free preview.
+  humanURL: https://fuelscout.scalpstream.com/
+  baseURL: https://fuelscout.scalpstream.com
+  tags: [Fuel Prices, Energy, Automotive, Open Data, x402, A2A]
+  properties:
+  - type: AgentCard
+    url: a2a/scalpstream-com-a2a.yml
+  - type: AgentCard
+    url: https://fuelscout.scalpstream.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://fuelscout.scalpstream.com/.well-known/x402
+  - type: LLMsTxt
+    url: llms/scalpstream-com-fuelscout-llms.txt
+  - type: X-X402
+    url: x402/scalpstream-com-x402.yml
+  - type: X-X402Discovery
+    url: well-known/scalpstream-com-fuelscout-x402.json
+  - type: Sandbox
+    url: sandbox/scalpstream-com-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/scalpstream-com-problem-types.yml
+  - type: DataModel
+    url: data-model/scalpstream-com-data-model.yml
+- name: ScalpStream Research
+  image: https://feed.scalpstream.com/icon.png
+  description: >-
+    Machine-payable, impersonal research feeds over x402: ranked 0-30 DTE options candidates
+    (/picks), dividend and tax-free municipal income (/dividends), crypto scalp candidates
+    (/crypto) and risk-adjusted crypto yields (/yields). Built to be polled - free previews carry
+    a board fingerprint served as a weak HTTP ETag so an agent can learn the board has changed
+    with a 304 before paying, and /schema publishes JSON Schema 2020-12 for every paid response.
+    Paid requests require the header X-Compliance-Attestation. Not investment advice.
+  humanURL: https://feed.scalpstream.com/
+  baseURL: https://feed.scalpstream.com
+  tags: [Market Research, Options, Dividends, Cryptocurrency, DeFi, Trading Signals, x402, A2A]
+  properties:
+  - type: JSONSchema
+    url: json-schema/scalpstream-com-research-schema.json
+  - type: JSONSchema
+    url: https://feed.scalpstream.com/schema
+  - type: AgentCard
+    url: a2a/scalpstream-com-a2a.yml
+  - type: AgentCard
+    url: https://feed.scalpstream.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://feed.scalpstream.com/.well-known/x402
+  - type: LLMsTxt
+    url: llms/scalpstream-com-research-llms.txt
+  - type: X-X402
+    url: x402/scalpstream-com-x402.yml
+  - type: X-X402Discovery
+    url: well-known/scalpstream-com-research-x402.json
+  - type: Sandbox
+    url: sandbox/scalpstream-com-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/scalpstream-com-problem-types.yml
+  - type: DataModel
+    url: data-model/scalpstream-com-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/scalpstream-com-domain-security.yml
 - type: Website
   url: https://scalpstream.com/
+- type: Documentation
+  url: https://recallscout.scalpstream.com/.well-known/x402
+- type: GettingStarted
+  url: https://www.scalpstream.com/#Products
+- type: Pricing
+  url: https://www.scalpstream.com/
+- type: GitHubOrganization
+  url: https://github.com/DV1-321
+- type: SourceCode
+  url: https://github.com/DV1-321/scalpstream-mcp
+- type: AgentCard
+  url: a2a/scalpstream-com-a2a.yml
+- type: MCPServer
+  url: mcp/scalpstream-com-mcp.yml
+- type: Packages
+  url: packages/scalpstream-com-packages.yml
+- type: WellKnown
+  url: well-known/scalpstream-com-well-known.yml
+- type: X-X402
+  url: x402/scalpstream-com-x402.yml
+- type: LLMsTxt
+  url: llms/scalpstream-com-llms.txt
+- type: LLMsTxt
+  url: https://recallscout.scalpstream.com/llms.txt
+- type: Conformance
+  url: conformance/scalpstream-com-conformance.yml
+- type: Conventions
+  url: conventions/scalpstream-com-conventions.yml
+- type: Authentication
+  url: authentication/scalpstream-com-authentication.yml
+- type: ErrorCatalog
+  url: errors/scalpstream-com-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/scalpstream-com-lifecycle.yml
+- type: Plans
+  url: plans/scalpstream-com-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/scalpstream-com-rate-limits.yml
+- type: ChangeLog
+  url: changelog/scalpstream-com-changelog.yml
+- type: DataModel
+  url: data-model/scalpstream-com-data-model.yml
+- type: Sandbox
+  url: sandbox/scalpstream-com-sandbox.yml
+- type: X-RegulatoryPosture
+  url: regulatory/scalpstream-com-regulatory-posture.yml

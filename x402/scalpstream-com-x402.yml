@@ -1,0 +1,78 @@
+generated: '2026-09-19'
+method: probed
+source: GET on each paid resource named in the five /.well-known/x402 discovery documents, 2026-09-19 (no payment was made)
+summary: >-
+  Every paid resource ScalpStream advertises answers a REAL x402 v2 challenge: HTTP 402,
+  Content-Type application/json, a base64url PAYMENT-REQUIRED response header carrying the
+  x402Version 2 envelope, a legacy X-PAYMENT-REQUIRED header carrying a single XRPL quote, and a
+  JSON body that repeats the envelope and adds an `extensions.bazaar` block - a provider-published
+  input/output description of the resource (HTTP method, example queryParams, an example output
+  and a JSON Schema of the paid response). This is the pipeline's x402 rule satisfied the right
+  way: the probe hit the documented operation path, not the base URL, and the negative control
+  (an unknown path on the same host) returned a clean 404. No payTo/asset values here are
+  secrets - they are the seller's public receiving addresses as served. Per-request fields
+  (invoiceId, sig, expiresAt) are whatever the server minted for this probe and expire in 60s.
+protocol:
+  name: x402
+  version: 2
+  headers_observed: [payment-required, x-payment-required, access-control-expose-headers, content-security-policy, strict-transport-security, x-content-type-options, x-frame-options, referrer-policy]
+  rate_limit_headers_observed: []
+  scheme: exact
+  max_timeout_seconds: 60
+  quote_ttl: expiresAt is ~60s after issue (invoice-bound quote)
+  accepts_rails:
+  - {network: 'eip155:8453', asset: USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), amount: '10000', decimals: 6}
+  - {network: 'eip155:42161', asset: USDC (0xaf88d065e77c8cC2239327C5EDb3A432268e5831), amount: '10000', decimals: 6}
+  - {network: 'eip155:137', asset: USDC (0x3c499c542cEF5E3811e1192ce70d8cc03d5c3359), amount: '10000', decimals: 6}
+  - {network: 'xrpl:0', asset: XRP, amount: '7137 drops (~0.007137 XRP)'}
+  - {network: 'xrpl:0', asset: RLUSD (issuer rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De), amount: '0.01'}
+  price_usd_per_request: '0.01'
+  bazaar_extension: >-
+    extensions.bazaar in each 402 body carries description, info.input {type http, method GET,
+    queryParams example}, info.output {type json, format application/json, example} and schema
+    (a JSON Schema object for the paid response). This is the closest thing to a machine-readable
+    contract these REST resources publish - there is no OpenAPI - and it is saved verbatim in
+    the challenge files rather than re-authored.
+resources:
+- service: RecallScout
+  resource: https://recallscout.scalpstream.com/recalls
+  status: 402
+  file: scalpstream-com-recallscout-402-challenge.json
+  input_params: [product, make, model, year, include_ended, limit]
+  output_schema_props: [action, active, active_count, complete, disclaimer, query, recalled, sources_failed, sources_queried, worst_severity]
+  free_preview: https://recallscout.scalpstream.com/preview
+- service: AirScout
+  resource: https://airscout.scalpstream.com/air
+  status: 402
+  file: scalpstream-com-airscout-402-challenge.json
+  input_params: [lat, lon, duration, hours, hourly, place]
+  output_schema_props: [best_window, current, disclaimer, place, price_usd, service, source, verdict]
+  free_preview: https://airscout.scalpstream.com/preview
+- service: BorderScout
+  resource: https://borderscout.scalpstream.com/crossings
+  status: 402
+  file: scalpstream-com-borderscout-402-challenge.json
+  input_params: [lat, lon, lanes, vehicle, limit, radius, speed, place]
+  output_schema_props: [crossings, disclaimer, place, price_usd, service, source]
+  free_preview: https://borderscout.scalpstream.com/preview
+- service: FuelScout
+  resource: https://fuelscout.scalpstream.com/fuel
+  status: 402
+  file: scalpstream-com-fuelscout-402-challenge.json
+  input_params: [country, region, lat, lon, grade, smart]
+  output_schema_props: [average, country, currency, disclaimer, grade, price_usd, resolution, service, stations]
+  free_preview: https://fuelscout.scalpstream.com/preview
+- service: ScalpStream Research
+  resource: https://feed.scalpstream.com/picks
+  status: 402
+  file: scalpstream-com-research-402-challenge.json
+  sibling_resources: [https://feed.scalpstream.com/dividends, https://feed.scalpstream.com/crypto, https://feed.scalpstream.com/yields]
+  input_params: []
+  output_schema_props: [as_of, disclaimer, operator_position_disclosure, pick_count, picks, publication, receipt]
+  output_schema_doc: ../json-schema/scalpstream-com-research-schema.json
+  required_request_header: 'X-Compliance-Attestation: not-sanctioned-party (documented in the x402 discovery note; refused 403 before settlement without it)'
+  free_previews: [https://feed.scalpstream.com/preview, https://feed.scalpstream.com/preview-dividends, https://feed.scalpstream.com/preview-crypto, https://feed.scalpstream.com/preview-yields]
+negative_control:
+  url: https://recallscout.scalpstream.com/status
+  status: 404
+  note: unknown paths return a clean 0-byte 404, so the 402s above are resource-specific and not a catch-all

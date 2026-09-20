@@ -1,0 +1,31 @@
+generated: '2026-09-19'
+method: probed
+source: GET /preview on all five agent hosts (200), the /.well-known/x402 free/freeEndpoints fields, and the scalpstream-mcp README (preview-only mode), 2026-09-19
+summary: >-
+  ScalpStream has no separate sandbox environment, test keys or test wallets - there are no keys
+  at all. Its rehearsal surface is the free preview: every host serves GET /preview without
+  payment, returning the service description, the exact query parameters, example paid URLs
+  and the price, and (research feed) a judgeable sample of the paid data with a board
+  fingerprint. The first-party MCP server does the same in software: with no wallet configured
+  every paid tool returns the free preview plus the exact quoted price. All values below are as
+  served; nothing is invented.
+mode:
+  test_vs_live: single environment; free preview vs paid resource on the same host
+  test_keys: none (no keys exist)
+  test_wallets: none published - paying requires real USDC/XRP/RLUSD
+  time_simulation: none
+free_previews:
+- {service: RecallScout, url: 'https://recallscout.scalpstream.com/preview', status: 200, returns: [service, what, why, parameters, examples, payment, price_usd, source, honesty, disclaimer]}
+- {service: AirScout, url: 'https://airscout.scalpstream.com/preview', status: 200, returns: [service, what, coverage, forecast_days, parameters, example, payment, price_usd, source, disclaimer]}
+- {service: BorderScout, url: 'https://borderscout.scalpstream.com/preview', status: 200, returns: [service, what, why, coverage, parameters, example, payment, price_usd, source, disclaimer]}
+- {service: FuelScout, url: 'https://fuelscout.scalpstream.com/preview', status: 200, returns: [service, description, coverage, grades, examples, paid_endpoint, price, note, disclaimer]}
+- {service: ScalpStream Research, url: 'https://feed.scalpstream.com/preview', status: 200, returns: [publication, as_of, pick_count, sample, freshness, price, operator_position_disclosure, disclaimer, note], also: ['/preview-dividends', '/preview-crypto', '/preview-yields', '/schema'], etag: weak ETag = freshness.board_hash; If-None-Match -> 304 (probed)}
+example_paid_urls_published:
+- https://recallscout.scalpstream.com/recalls?product=infant+formula
+- https://recallscout.scalpstream.com/recalls?make=Honda&model=Accord&year=2020
+- https://fuelscout.scalpstream.com/fuel?country=ES&lat=40.4168&lon=-3.7038&grade=diesel&smart=1
+- https://fuelscout.scalpstream.com/fuel?country=US&region=CA&grade=diesel
+mcp_preview_mode:
+  tool: scalpmcp (github.com/DV1-321/scalpstream-mcp)
+  behaviour: with EVM_BASE_PRIVATE_KEY unset, every paid tool returns the free preview and the exact quoted price; payment_status reports configuration and spend without a network call
+  spend_caps: {SCALPMCP_MAX_PRICE_USD: '0.10', SCALPMCP_BUDGET_USD: '2.00'}

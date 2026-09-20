@@ -1,0 +1,106 @@
+generated: '2026-09-19'
+method: searched
+status: published
+source: https://github.com/DV1-321/scalpstream-mcp (README + go.mod + proxy.golang.org metadata) and a live tools/list probe of https://www.scalpstream.com/_api/mcp
+summary: >-
+  Two MCP surfaces exist and they are different things. (1) FIRST-PARTY, LOCAL-STDIO: the operator
+  publishes `scalpstream-mcp`, a Go MCP server (binary `scalpmcp`) that a user installs and runs
+  locally; it wraps the five x402 data services and pays for each call from the user's own
+  wallet (USDC on Base), with hard per-call and per-process spend caps; with no key configured
+  every paid tool returns the free preview plus the quoted price. Ownership is established by the
+  sibling repo DV1-321/agent-cards, which exists to prove that GitHub account's namespace over the
+  ScalpStream agents. (2) PLATFORM-AUTHORED, REMOTE: www.scalpstream.com/_api/mcp is the Wix Site
+  MCP that Wix serves for every Wix site; tools/list answered 200 with Wix's generic 9-tool set
+  (GetBusinessDetails, SearchInSite, CallWixSiteAPI ...). It is reachable and unauthenticated, but
+  it exposes the marketing site, not the data APIs, and the operator did not write it - recorded
+  so the difference is visible, not credited as an operator-built remote server.
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: go install github.com/DV1-321/scalpstream-mcp/cmd/scalpmcp@latest
+  package: https://pkg.go.dev/github.com/DV1-321/scalpstream-mcp
+  auth: none
+  verified: searched
+  note: >-
+    No hosted https endpoint for the first-party server is published anywhere (README, agent
+    cards, x402 docs, llms.txt all point only at the local binary). The MCP client config is
+    {"command":"scalpmcp","env":{EVM_BASE_PRIVATE_KEY, SCALPMCP_MAX_PRICE_USD, SCALPMCP_BUDGET_USD}}
+    - omit env entirely for preview-only mode. verified: searched (read from the repo and Go
+    module proxy, not executed).
+server:
+  name: scalpstream
+  binary: scalpmcp
+  transport: stdio
+  language: Go
+  module: github.com/DV1-321/scalpstream-mcp
+  version: v0.1.6
+  published: '2026-09-08'
+  license: MIT
+  repository: https://github.com/DV1-321/scalpstream-mcp
+payments:
+  model: x402 (client-side)
+  note: >-
+    The server pays sellers per call from the user's Base-mainnet key held in process memory;
+    gas is facilitator-sponsored so the wallet needs only USDC. Defaults SCALPMCP_MAX_PRICE_USD
+    0.10 and SCALPMCP_BUDGET_USD 2.00 are enforced before signing; an unset limit means the
+    default, never unlimited; spend is recorded only when data is delivered.
+tool_count: 8
+tools:
+- name: options_research
+  category: research
+  description: Ranked short-term US equity options candidates with the observed metrics behind each ranking (impersonal research data, no trade plan).
+  backing_resource: https://feed.scalpstream.com/picks
+- name: municipal_income
+  category: research
+  description: Federally tax-exempt municipal bond funds and muni CEFs with tax-equivalent yields for the 24/32/37% brackets.
+  backing_resource: https://feed.scalpstream.com/dividends
+- name: crypto_research
+  category: research
+  description: Ranked cryptocurrency candidates - technical signals plus a Fear & Greed and news-sentiment overlay.
+  backing_resource: https://feed.scalpstream.com/crypto
+- name: crypto_yields
+  category: research
+  description: Where to earn interest on crypto - DeFi staking APY, stablecoin lending, LP yields across CeFi and DeFi, risk-adjusted by TVL.
+  backing_resource: https://feed.scalpstream.com/yields
+- name: cheapest_fuel
+  category: data
+  description: Cheapest fuel by location and grade - station-level for Spain, France, Italy; official regional averages for the US.
+  backing_resource: https://fuelscout.scalpstream.com/fuel
+- name: air_quality
+  category: data
+  description: Current AQI and pollutants anywhere, an EPA-based verdict on exercising outdoors, and the cleanest window ahead.
+  backing_resource: https://airscout.scalpstream.com/air
+- name: border_crossings
+  category: data
+  description: US ports of entry ranked by all-in time (drive plus current CBP wait) per lane type.
+  backing_resource: https://borderscout.scalpstream.com/crossings
+- name: payment_status
+  category: meta
+  description: What is configured and what has been spent - no network call, costs nothing.
+  backing_resource: null
+tools_note: >-
+  Tool names and descriptions are transcribed from the repository README's Tools table; input
+  schemas were not enumerated (that requires installing and running the binary). RecallScout is
+  NOT among the eight tools in the v0.1.6 README even though it is one of the five A2A agents -
+  recorded as a gap between the MCP surface and the A2A surface, not corrected.
+platform_servers:
+- name: Wix Site MCP (platform-authored)
+  authored_by: Wix
+  mode: remote
+  endpoint: https://www.scalpstream.com/_api/mcp
+  transport: streamable-http
+  auth: none
+  verified: probed
+  probe:
+    method: tools/list
+    http_status: 200
+    content_type: application/json; charset=utf-8
+    mcp_session_id_header: present
+    tool_count: 9
+    tools: [ReadFullDocsArticle, ReadFullDocsMethodSchema, BrowseWixRESTDocsMenu, CallWixSiteAPI, GenerateVisitorToken, SearchSiteApiDocs, GetBusinessDetails, SearchInSite, ExecuteWixAPI]
+    file: scalpstream-com-wix-site-mcp-tools.json
+  advertised_in: https://scalpstream.com/llms.txt (Wix auto-generated llms.txt)
+  note: >-
+    Byte-identical to the Wix tool set found on 38 other Wix tenants in the catalog (see the
+    platform-authorship audit). It serves site content and Wix business APIs for the marketing
+    site; none of the five data services are reachable through it. Not the provider's server.
