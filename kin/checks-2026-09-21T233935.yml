@@ -2,16 +2,16 @@
 kin_checks:
   slug: scalpstream-com
   schema_version: 0.22.0
-  scored_at: '2026-09-19'
-  run_ts: 2026-09-19T193153
+  scored_at: '2026-09-21'
+  run_ts: 2026-09-21T233935
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 136
-    earned: 21
+    earned: 22
     partial: 6
-    missed: 66
+    missed: 65
     na: 43
   checks:
   - id: well_known_published
@@ -97,8 +97,6 @@ kin_checks:
   - id: trust_center
     status: missed
   - id: reg_oauth_scopes
-    status: missed
-  - id: reg_security_disclosure
     status: missed
   - id: reg_vulnerability_disclosure
     status: missed

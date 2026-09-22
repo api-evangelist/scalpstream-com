@@ -44,6 +44,25 @@ tags:
 - USDC
 - XRP Ledger
 - llms-txt
+- JSON-Schema
+tags_raw:
+- Company
+- Agents
+- A2A
+- x402
+- Micropayments
+- MCP
+- Open Data
+- Product Recalls
+- Air Quality
+- Border Crossings
+- Fuel Prices
+- Market Research
+- Public Safety
+- Cryptocurrency
+- USDC
+- XRP Ledger
+- llms-txt
 - JSON Schema
 apis:
 - name: RecallScout
