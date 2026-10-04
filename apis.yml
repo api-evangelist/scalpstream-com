@@ -13,6 +13,21 @@ description: >-
   free preview on every host, an A2A agent card and JSON-RPC endpoint per service, and a
   first-party local MCP server (scalpmcp) that buys from all of them with the user's own wallet.
 url: https://raw.githubusercontent.com/api-evangelist/scalpstream-com/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  license_evidence:
+    not_product:
+    - dv1-321/scalpstream-mcp
+  open_source: unknown
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: low
+  source:
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
+  method: derived
 image: https://recallscout.scalpstream.com/icon.png
 x-type: company
 x-source: harvest:a2a-registry
@@ -44,7 +59,7 @@ tags:
 - USDC
 - XRP Ledger
 - llms-txt
-- JSON-Schema
+- JSON Schema
 tags_raw:
 - Company
 - Agents
@@ -64,6 +79,7 @@ tags_raw:
 - XRP Ledger
 - llms-txt
 - JSON Schema
+- JSON-Schema
 apis:
 - name: RecallScout
   image: https://recallscout.scalpstream.com/icon.png
@@ -274,3 +290,10 @@ common:
   url: sandbox/scalpstream-com-sandbox.yml
 - type: X-RegulatoryPosture
   url: regulatory/scalpstream-com-regulatory-posture.yml
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://recallscout.scalpstream.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404
