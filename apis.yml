@@ -40,7 +40,7 @@ x-enrichment:
   artifacts_added: 40
   pass: local-v3
 created: '2026-09-19'
-modified: '2026-09-19'
+modified: '2026-10-06'
 tags:
 - Company
 - Agents
@@ -240,6 +240,10 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- url: https://www.scalpstream.com/blog
+  type: Blog
+- url: https://www.scalpstream.com/blog-feed.xml
+  type: BlogRSS
 - type: DomainSecurity
   url: security/scalpstream-com-domain-security.yml
 - type: Website
