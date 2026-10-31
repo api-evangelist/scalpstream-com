@@ -64,5 +64,117 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-RecallScout is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://scalpstream.com/
+ScalpStream operates a family of machine-payable data APIs built for autonomous agents: RecallScout (active US FDA, NHTSA and CPSC recalls with severity normalised across the three regulators), AirScout (global air quality with an EPA-based outdoor-exertion verdict and the cleanest window ahead), BorderScout (all 85 US ports of entry ranked by drive-plus-wait time per lane), FuelScout (cheapest fuel - station-level for Spain, France and Italy, official regional averages for the US) and ScalpStream Research (impersonal ranked options, dividend, crypto and yield feeds). Every service is a plain HTTPS GET priced at a flat $0.01 per request and settled per request over x402 (HTTP 402) in USDC on Base, Arbitrum or Polygon or XRP/RLUSD on the XRP Ledger - no accounts, no API keys, no subscriptions - with a free preview on every host, an A2A agent card and JSON-RPC endpoint per service, and a first-party local MCP server (scalpmcp) that buys from all of them with the user's own wallet.
+
+**Areas:** Company · Agents · A2A · x402 · Micropayments · MCP · Open Data · Product Recalls · Air Quality · Border Crossings · Fuel Prices · Market Research
+
+## ScalpStream on APIs.io
+
+Everything profiled for ScalpStream is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/scalpstream-com/](https://apis.io/providers/scalpstream-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [RecallScout](https://apis.io/apis/scalpstream-com/recallscout/) — Machine-payable US recall lookups over x402. Given a product, brand, ingredient or vehicle (make/model/year), returns active recalls across FDA…
+- [AirScout](https://apis.io/apis/scalpstream-com/airscout/) — Machine-payable air-quality queries over x402 with global coverage: current US AQI and pollutant breakdown for a lat/lon, an EPA (AirNow) based verdict on…
+- [BorderScout](https://apis.io/apis/scalpstream-com/borderscout/) — Machine-payable US border-crossing queries over x402. Ranks all 85 US ports of entry by all-in time - the drive there plus the live CBP wait once there -…
+- [FuelScout](https://apis.io/apis/scalpstream-com/fuelscout/) — Machine-payable cheapest-fuel queries over x402. Station-level prices for Spain, France and Italy and official regional averages for the US, by location and…
+- [ScalpStream Research](https://apis.io/apis/scalpstream-com/scalpstream-research/) — Machine-payable, impersonal research feeds over x402: ranked 0-30 DTE options candidates (/picks), dividend and tax-free municipal income (/dividends),…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [scalpstream](https://apis.io/servers/scalpstream-com/scalpstream/)
+
+#### JSON Schema (1)
+
+The data models the API reads and writes.
+
+- [Scalpstream Com Research](https://apis.io/schemas/scalpstream-com/scalpstream-com-research/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Scalpstream Com Authentication](https://apis.io/security/scalpstream-com/scalpstream-com-authentication/)
+- [Scalpstream Com Domain Security](https://apis.io/security/scalpstream-com/scalpstream-com-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Scalpstream Com Plans Pricing](https://apis.io/plans/scalpstream-com/scalpstream-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Scalpstream Com Rate Limits](https://apis.io/rate-limits/scalpstream-com/scalpstream-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://scalpstream.com/)
+- [Documentation](https://recallscout.scalpstream.com/.well-known/x402)
+- [Getting started](https://www.scalpstream.com/#Products)
+- [Pricing](https://www.scalpstream.com/)
+- [Blog](https://www.scalpstream.com/blog)
+- [GitHub](https://github.com/DV1-321)
+
+## API Evangelist rating
+
+**Kin Score 25.2** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 76.7 |
+| Contract quality | 12.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 36.9 |
+| Access clarity | 10.5 |
+
+**Agent readiness 17.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/scalpstream-com/](https://apis.io/providers/scalpstream-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for ScalpStream: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/scalpstream-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
